@@ -17,5 +17,5 @@ type User struct {
 	Banner    string             `bson:"banner" json:"banner,omitempty"`
 	Biography string             `bson:"biography" json:"biography,omitempty"`
 	Location  string             `bson:"location" json:"location,omitempty"`
-	WebSite   string             `bson:"webSite" json:"webSite"`
+	WebSite   string             `bson:"webSite,omitempty" json:"webSite"`
 }
