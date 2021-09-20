@@ -115,3 +115,34 @@ func DeleteTweet(rw http.ResponseWriter, r *http.Request) {
 
 	rw.WriteHeader(200)
 }
+
+func ReadTweetsFollow(rw http.ResponseWriter, r *http.Request) {
+	var customErr models.Error
+	var pageInt int64
+	var err error
+
+	page := r.URL.Query().Get("page")
+
+	if len(page) < 1 {
+		pageInt = 1
+	} else {
+		pageInt, err = strconv.ParseInt(page, 10, 64)
+		if err != nil {
+			customErr.Code = 400
+			customErr.Message = "La pagina debe de ser un numero entero"
+			utils.JSONResponse(rw, customErr, 400)
+			return
+		}
+	}
+
+	response, status := db.ReadTweetsFollow(IDUsuario, pageInt)
+
+	if !status {
+		customErr.Code = 400
+		customErr.Message = "Error al leer los tweets"
+		utils.JSONResponse(rw, customErr, 400)
+		return
+	}
+
+	utils.JSONResponse(rw, response, 200)
+}
